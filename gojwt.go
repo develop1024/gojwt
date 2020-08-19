@@ -1,6 +1,7 @@
 package gojwt
 
 import (
+	"errors"
 	"fmt"
 	"github.com/develop1024/jwt-go"
 )
@@ -24,14 +25,14 @@ func ParseToken(tokenString string, secret []byte) (jwt.MapClaims, error) {
 		return secret, nil
 	})
 
-	//
+	// Bad token
 	if token == nil {
-		return nil, fmt.Errorf("Bad token")
+		return nil, errors.New("Bad token")
 	}
 
 	// Invalid token
 	if !token.Valid {
-		return nil, fmt.Errorf("Invalid token")
+		return nil, errors.New("Invalid token")
 	}
 
 	if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
